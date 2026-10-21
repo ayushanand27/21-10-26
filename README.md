@@ -74,16 +74,16 @@ Public leaderboard metric = F1 of the anomaly class (verified: hold-out F1₁ pr
 
 | Submission (`submissions/`) | What it is | Public F1 |
 |---|---|---|
-| `v7_alignbag_plus_v3.csv` | alignment bag (3 alignments) averaged with v3 — best on the hold-out | *pending* |
-| `v6_alignbag.csv` | alignment bag of LightGBM ×3 | *pending* |
-| `v4_blend_v2_v3.csv` | average of the v2 ensemble and v3 | **0.89205** |
+| `v6_alignbag.csv` | alignment bag of LightGBM ×3 | **0.89297** |
+| `v7_alignbag_plus_v3.csv` | alignment bag (3 alignments) averaged with v3 — best on the hold-out | 0.89182 |
+| `v4_blend_v2_v3.csv` | average of the v2 ensemble and v3 | 0.89205 |
 | `v2_hedge_rate_matched.csv` | v2 ensemble, rate-matched threshold | 0.89193 |
 | `v2_ensemble.csv` | 0.87 LightGBM×3 + 0.12 XGBoost + CatBoost, soft alignment | 0.89191 |
 | `v2a_lgb3_soft_PRIMARY.csv` | LightGBM ×3 seeds + soft alignment | 0.89133 |
 | `v3_pseudolabel.csv` | v2a + soft pseudo-labels of test minutes (+0.0023 on hold-out) | 0.89036 |
 | `v1_lgb_public_0.8897.csv` | single LightGBM, hard alignment | 0.88966 |
 
-All six are selected for the private leaderboard (Kaggle keeps the best). A simulated public/private split on the hold-out
+All of them are selected for the private leaderboard (Kaggle keeps the best). A simulated public/private split on the hold-out
 (`scripts/private_split_sim.py`) shows the private−public difference is ±0.015 (90 % range) purely from sampling noise, with no
 sign of over-fitting: every choice above was made on the hold-out, never on the public board.
 `scripts/` holds the exact scripts that produced every file (see *Reproducing the submissions*).
@@ -121,7 +121,9 @@ method (EDA, all classical and advanced models, evaluation and robustness checks
 ## Repository layout
 
 ```
-anomaly_detection.ipynb   # full analysis: EDA -> timeline rebuild -> features -> 12 models -> ensemble -> robustness -> submission
+anomaly_detection.ipynb   # full analysis: EDA -> timeline rebuild -> features -> 12 models -> ensemble -> robustness ->
+                          #   final section: alignment bagging + soft pseudo-labels -> submission
+notebooks_executed/       # executed Kaggle run (all outputs and plots) of the notebook before the final section was added
 src/                      # library code: pipeline.py (decode, dates, DP merge, features), softalign.py (forward-backward
                           #   posterior features), eval_utils.py (fixed paired hold-out protocol), learned_cost.py (rejected idea)
 scripts/                  # end-to-end scripts that produced the submitted files + reproduce.sh
