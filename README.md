@@ -3,9 +3,8 @@
 This project predicts anomalies (`target` = 1) from five sensor readings (`X1…X5`) captured every minute in an energy
 manufacturing plant. It is scored on **F1 and accuracy for each class**.
 
-Everything lives in **[`anomaly_detection.ipynb`](anomaly_detection.ipynb)**, which is executed and committed with all
-outputs and plots. The final predictions are in `submission.csv` / `submission.parquet`, which follow the `sample_submission`
-format with `target` as the string `'0'`/`'1'`.
+Everything lives in **[`anomaly_detection.ipynb`](anomaly_detection.ipynb)**. Running it writes `submission.csv` / `submission.parquet`,
+which follow the `sample_submission` format with `target` as the string `'0'`/`'1'`.
 
 ## Key findings
 
@@ -66,9 +65,9 @@ The data goes in `data/` (`train.parquet`, `test.parquet`, `sample_submission.pa
 ## Repository layout
 
 ```
-anomaly_detection.ipynb       # the full, executed analysis
-submission.csv / .parquet     # final test predictions (ID, target)
-submission_probabilities.csv  # ensemble anomaly probabilities for every test row
+anomaly_detection.ipynb       # the full analysis (run it to produce outputs + submissions)
+submission.csv / .parquet     # written by the notebook: final test predictions (ID, target)
+submission_probabilities.csv  # written by the notebook: ensemble anomaly probability per test row
 data/                         # competition data (CC0)
 requirements.txt
 ```
