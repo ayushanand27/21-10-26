@@ -40,13 +40,22 @@ prints the full table for every model, the ensemble, and per-class precision, re
 | + temporal context (sensor-only model) | 0.93 | 0.86 |
 | + neighbour labels | 0.94 | 0.87 |
 | + test-like (out-of-fold) training features | **0.949** | **0.883** |
+| **+ soft (posterior) alignment, LightGBM ×3 seeds** | **0.952** | **0.886** |
 | upper bound with perfect timeline positions | 0.956 | 0.897 |
 
 Class-0 F1 and accuracy are ≈ 0.999 for every reasonable model.
 
 **Tried and rejected** (all measured on the hold-out): stage-2 stacking on neighbouring predictions (−2 pts), post-hoc episode
-smoothing (no gain), and 20 instead of 10 out-of-fold chunks (−0.5 pt). **Kept:** seed bagging of the boosted models, plus a
+smoothing (no gain), 20 instead of 10 out-of-fold chunks (−0.5 pt), context-specific thresholds (no gain), and leave-out
+anomaly rates of identical sensor vectors (−0.6 pt cross-fitted). **Kept:** seed bagging of the boosted models, plus a
 second, rate-matched submission as a hedge against calibration shift.
+
+## Leaderboard
+
+Public leaderboard metric = F1 of the anomaly class (verified: hold-out F1₁ predicted the public score).
+`submissions/v1_lgb_public_0.8897.csv` scored **0.8897 public (2nd)**. `submissions/v2a_lgb3_soft_PRIMARY.csv` (LightGBM ×3 +
+soft alignment) is the primary final pick; `v2_ensemble.csv` and `v2_hedge_rate_matched.csv` are additional selections.
+`submissions/final_v2.py` + `softalign.py` are the standalone scripts that produced them.
 
 ## How to run
 
@@ -73,6 +82,7 @@ anomaly_detection.ipynb       # the full analysis (run it to produce outputs + s
 submission.csv / .parquet     # written by the notebook: final test predictions (ID, target)
 submission_probabilities.csv  # written by the notebook: ensemble anomaly probability per test row
 submission_rate_matched.csv   # written by the notebook: hedge submission (rate-matched threshold)
+submissions/                  # submitted prediction files + the scripts that produced them
 data/                         # competition data (CC0)
 requirements.txt
 ```
