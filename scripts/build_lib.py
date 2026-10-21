@@ -3,10 +3,10 @@ DP merge exactly like the test rows, compute its features from the remaining lab
 usage: python build2.py DATA_DIR OUT_DIR {sim|final} K"""
 import sys, os, time
 import numpy as np, pandas as pd
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path[:0] = [os.path.join(os.path.dirname(os.path.abspath(__file__)), p) for p in ('.', '../src', '../scripts')]
 from pipeline import *
 
-data_dir = '/tmp/claude-0/-home-user-real-work-with-me/893a563d-bcf1-5cd8-bdb5-24fd284ca60e/scratchpad/data'
+data_dir = os.path.join(os.environ.get('WORK', os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'work')), 'data')
 t0 = time.time()
 tr, te = load(data_dir)
 dtr, dte = decode(tr), decode(te)

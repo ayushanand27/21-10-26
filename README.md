@@ -63,8 +63,7 @@ Class-0 F1 and accuracy are ≈ 0.999 for every reasonable model.
 
 **Error anatomy:** ~60 % of the remaining errors sit at episode boundaries (±1-minute ambiguity), ~20 % are isolated anomalies far
 from any labelled one. With perfect minute positions a single LightGBM reaches 0.897 on the hold-out, so the practical ceiling of
-this approach on the leaderboard is ≈ 0.89–0.90. **Kept:** seed bagging of the boosted models, plus a
-second, rate-matched submission as a hedge against calibration shift.
+this approach on the leaderboard is ≈ 0.89–0.90.
 
 ## Leaderboard
 
@@ -80,9 +79,9 @@ Public leaderboard metric = F1 of the anomaly class (verified: hold-out F1₁ pr
 | `v1_lgb_public_0.8897.csv` | single LightGBM, hard alignment | 0.88966 |
 
 All six are selected for the private leaderboard (Kaggle keeps the best). A simulated public/private split on the hold-out
-(`submissions/private_sim.py`) shows the private−public difference is ±0.015 (90 % range) purely from sampling noise, with no
+(`scripts/private_split_sim.py`) shows the private−public difference is ±0.015 (90 % range) purely from sampling noise, with no
 sign of over-fitting: every choice above was made on the hold-out, never on the public board.
-`submissions/*.py` are the standalone scripts that produced the files.
+`scripts/` holds the exact scripts that produced every file (see *Reproducing the submissions*).
 
 ## How to run
 
@@ -102,15 +101,27 @@ The data goes in `data/` (`train.parquet`, `test.parquet`, `sample_submission.pa
 `cache/`. A full-strength run (`FAST_MODE = False`, the default) takes about 2.5–3 h on Kaggle (T4 GPU + 4 vCPU) — use *Save Version → Save & Run All* so it runs in the background. `FAST_MODE = True` cuts it to about 1.5 h. On a Kaggle GPU, XGBoost, CatBoost and the PyTorch models run on CUDA. Set `SMOKE=1` for a 4-minute end-to-end check on every
 25th day.
 
+## Reproducing the submissions
+
+```bash
+pip install -r requirements.txt
+bash scripts/reproduce.sh        # CPU only, ~3-4 h on 4 cores / 16 GB; intermediate tables go to ./work (override with WORK=...)
+```
+
+The script runs, in order: feature build for the hold-out world and the real test (`build_features.py`), v1, soft-alignment
+features, v2a / v2 / hedge (`v2_final.py`), the pseudo-label study, v3 (`v3_pseudolabel.py`), v4 (`v4_blend.py`) and the
+public/private split simulation (`private_split_sim.py`). The notebook is the documented, self-contained version of the same
+method (EDA, all classical and advanced models, evaluation and robustness checks).
+
 ## Repository layout
 
 ```
-anomaly_detection.ipynb       # the full analysis (run it to produce outputs + submissions)
-submission.csv / .parquet     # written by the notebook: final test predictions (ID, target)
-submission_probabilities.csv  # written by the notebook: ensemble anomaly probability per test row
-submission_rate_matched.csv   # written by the notebook: hedge submission (rate-matched threshold)
-submissions/                  # submitted prediction files + the scripts that produced them
-experiments/                  # scripts of the hold-out experiments in the log above
-data/                         # competition data (CC0)
+anomaly_detection.ipynb   # full analysis: EDA -> timeline rebuild -> features -> 12 models -> ensemble -> robustness -> submission
+src/                      # library code: pipeline.py (decode, dates, DP merge, features), softalign.py (forward-backward
+                          #   posterior features), eval_utils.py (fixed paired hold-out protocol), learned_cost.py (rejected idea)
+scripts/                  # end-to-end scripts that produced the submitted files + reproduce.sh
+experiments/              # hold-out experiments behind the experiment log (kept and rejected ideas)
+submissions/              # the six submitted prediction files (all selected for the private leaderboard)
+data/                     # competition data (CC0)
 requirements.txt
 ```

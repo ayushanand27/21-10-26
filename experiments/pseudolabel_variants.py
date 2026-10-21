@@ -1,6 +1,6 @@
 import sys, os, time, numpy as np, pandas as pd, lightgbm as lgb, warnings; warnings.filterwarnings('ignore')
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import build2_lib as B
+sys.path[:0] = [os.path.join(os.path.dirname(os.path.abspath(__file__)), p) for p in ('.', '../src', '../scripts')]
+import build_lib as B
 from pipeline import label_features, merge_timeline, MERGE_W
 from softalign import soft_features, SOFT_NAMES
 from sklearn.metrics import average_precision_score, f1_score

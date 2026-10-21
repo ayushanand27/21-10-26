@@ -1,0 +1,17 @@
+import sys, time, numpy as np, pandas as pd, lightgbm as lgb, warnings; warnings.filterwarnings('ignore')
+S=sys.argv[1]; t0=time.time()
+trn=pd.read_parquet(f'{S}/feat/tl_final_train.parquet'); te=pd.read_parquet(f'{S}/feat/tl_final_eval.parquet')
+meta=['row','pos','day','src','ID','y','chunk']; cols=[c for c in trn.columns if c not in meta]
+print(trn.shape, te.shape, te.ID.nunique(), flush=True)
+P=dict(objective='binary',learning_rate=0.05,num_leaves=63,min_child_samples=50,feature_fraction=0.7,bagging_fraction=0.8,bagging_freq=1,lambda_l2=1.0,verbose=-1,num_threads=4,seed=42)
+b=lgb.train(P,lgb.Dataset(trn[cols],trn.y),1400); b.save_model(f'{S}/feat/lgb_final_quick.txt')
+p=b.predict(te[cols]); print('trained', f'{time.time()-t0:.0f}s', flush=True)
+test=pd.read_parquet(f'{S}/data/test.parquet')
+out=pd.DataFrame({'ID':te.ID.values,'p':p}).set_index('ID').reindex(test.ID.values)
+assert out.p.notna().all()
+for t in (0.40,0.45,0.50,0.55):
+    print(t, 'pred rate', round((out.p>=t).mean()*100,4),'%')
+sub=pd.DataFrame({'ID':test.ID.values,'target':(out.p.values>=0.5).astype(int).astype(str)})
+sub.to_csv(f'{S}/share/submission_lgb_quick.csv',index=False)
+out.reset_index().rename(columns={'index':'ID'}).to_csv(f'{S}/feat/p_test_lgb_quick.csv',index=False)
+print(sub.target.value_counts().to_dict(), sub.shape)

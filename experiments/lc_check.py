@@ -1,5 +1,5 @@
 import sys, os, time, numpy as np
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path[:0] = [os.path.join(os.path.dirname(os.path.abspath(__file__)), p) for p in ('.', '../src', '../scripts')]
 from pipeline import load, decode, fix_dates, sensor_matrix, standardise, _merge_two, MERGE_W
 from learned_cost import int_codes, fit_tables, merge_learned, merge_mixed
 S=sys.argv[1]

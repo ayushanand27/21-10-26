@@ -1,5 +1,5 @@
 import sys, os, numpy as np, pandas as pd
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path[:0] = [os.path.join(os.path.dirname(os.path.abspath(__file__)), p) for p in ('.', '../src', '../scripts')]
 from pipeline import load, decode, fix_dates, sensor_matrix, standardise, _merge_two
 tr,te=load(sys.argv[1]); dtr=decode(tr); dtr['day'],_=fix_dates(tr)
 y=tr.target.values

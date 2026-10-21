@@ -1,6 +1,6 @@
 # exact sensor-vector leave-out label statistics (out-of-fold, same chunks as the other features)
 import sys, os, time, numpy as np, pandas as pd, lightgbm as lgb, warnings; warnings.filterwarnings('ignore')
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path[:0] = [os.path.join(os.path.dirname(os.path.abspath(__file__)), p) for p in ('.', '../src', '../scripts')]
 from pipeline import load, decode
 from sklearn.metrics import average_precision_score, f1_score
 S=sys.argv[1]; t0=time.time()

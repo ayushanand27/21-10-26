@@ -1,9 +1,9 @@
 # episode smoothing over unlabelled neighbours (hold-out + test rows in the same view)
 import sys, os, time, numpy as np, pandas as pd, lightgbm as lgb, warnings; warnings.filterwarnings('ignore')
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path[:0] = [os.path.join(os.path.dirname(os.path.abspath(__file__)), p) for p in ('.', '../src', '../scripts')]
 from sklearn.metrics import f1_score, average_precision_score
 S=sys.argv[1]; K=sys.argv[2] if len(sys.argv)>2 else ''
-import build2_lib as B
+import build_lib as B
 trn=pd.read_parquet(f'{S}/feat/tl_sim{K}_train.parquet')
 meta=['row','pos','day','src','ID','y','chunk']; cols=[c for c in trn.columns if c not in meta]
 mf=f'{S}/feat/lgb_sim{K}.txt'

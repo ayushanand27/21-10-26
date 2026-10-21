@@ -1,9 +1,9 @@
 """Test-like features for training rows: hide one chunk of train at a time, re-position it with the
 DP merge exactly like the test rows, compute its features from the remaining labels.
-usage: python build2.py DATA_DIR OUT_DIR {sim|final} K"""
+usage: python scripts/build_features.py WORK/data WORK/feat {sim|final} K"""
 import sys, os, time
 import numpy as np, pandas as pd
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path[:0] = [os.path.join(os.path.dirname(os.path.abspath(__file__)), p) for p in ('.', '../src', '../scripts')]
 from pipeline import *
 
 data_dir, out, mode, K = sys.argv[1], sys.argv[2], sys.argv[3], int(sys.argv[4])
