@@ -52,10 +52,21 @@ second, rate-matched submission as a hedge against calibration shift.
 
 ## Leaderboard
 
-Public leaderboard metric = F1 of the anomaly class (verified: hold-out F1₁ predicted the public score).
-`submissions/v1_lgb_public_0.8897.csv` scored **0.8897 public (2nd)**. `submissions/v2a_lgb3_soft_PRIMARY.csv` (LightGBM ×3 +
-soft alignment) is the primary final pick; `v2_ensemble.csv` and `v2_hedge_rate_matched.csv` are additional selections.
-`submissions/final_v2.py` + `softalign.py` are the standalone scripts that produced them.
+Public leaderboard metric = F1 of the anomaly class (verified: hold-out F1₁ predicted the public score). Public = ~50 % of test.
+
+| Submission (`submissions/`) | What it is | Public F1 |
+|---|---|---|
+| `v4_blend_v2_v3.csv` | average of the v2 ensemble and v3 | **0.89205** |
+| `v2_hedge_rate_matched.csv` | v2 ensemble, rate-matched threshold | 0.89193 |
+| `v2_ensemble.csv` | 0.87 LightGBM×3 + 0.12 XGBoost + CatBoost, soft alignment | 0.89191 |
+| `v2a_lgb3_soft_PRIMARY.csv` | LightGBM ×3 seeds + soft alignment | 0.89133 |
+| `v3_pseudolabel.csv` | v2a + soft pseudo-labels of test minutes (+0.0023 on hold-out) | 0.89036 |
+| `v1_lgb_public_0.8897.csv` | single LightGBM, hard alignment | 0.88966 |
+
+All six are selected for the private leaderboard (Kaggle keeps the best). A simulated public/private split on the hold-out
+(`submissions/private_sim.py`) shows the private−public difference is ±0.015 (90 % range) purely from sampling noise, with no
+sign of over-fitting: every choice above was made on the hold-out, never on the public board.
+`submissions/*.py` are the standalone scripts that produced the files.
 
 ## How to run
 
