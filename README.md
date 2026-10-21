@@ -45,9 +45,25 @@ prints the full table for every model, the ensemble, and per-class precision, re
 
 Class-0 F1 and accuracy are ≈ 0.999 for every reasonable model.
 
-**Tried and rejected** (all measured on the hold-out): stage-2 stacking on neighbouring predictions (−2 pts), post-hoc episode
-smoothing (no gain), 20 instead of 10 out-of-fold chunks (−0.5 pt), context-specific thresholds (no gain), and leave-out
-anomaly rates of identical sensor vectors (−0.6 pt cross-fitted). **Kept:** seed bagging of the boosted models, plus a
+### Experiment log (all measured on the honest hold-out; scripts in `experiments/`)
+
+| Idea | Hold-out effect | Decision |
+|---|---|---|
+| Test-like (out-of-fold re-placed) training features | F1 0.877 → 0.884 | ✅ kept |
+| Soft (posterior) alignment features, T = 1 | F1 0.8836 → 0.8866, PR-AUC 0.9491 → 0.9508 | ✅ kept |
+| Seed bagging (LightGBM ×3) | lower variance | ✅ kept |
+| Soft pseudo-labels of unlabelled minutes | +0.0023 F1, gain in 93 % of week-block bootstrap resamples | ✅ kept (v3) |
+| Stage-2 stacking on neighbouring predictions | −2 pts | ❌ |
+| Post-hoc episode smoothing | no gain | ❌ |
+| 20 instead of 10 out-of-fold chunks | −0.5 pt | ❌ |
+| Context-specific thresholds (edge / isolated) | no gain (0.8835 vs 0.8835) | ❌ |
+| Leave-out anomaly rate of identical sensor vectors | −0.6 pt cross-fitted | ❌ |
+| XGBoost / CatBoost in the blend | blend ≈ 87 % LightGBM, no gain | kept only as a diversity pick |
+| Learned alignment cost (−log P(Δ) per sensor) | worse exact placement at episode edges (0.538 → 0.44–0.51) | ❌ |
+
+**Error anatomy:** ~60 % of the remaining errors sit at episode boundaries (±1-minute ambiguity), ~20 % are isolated anomalies far
+from any labelled one. With perfect minute positions a single LightGBM reaches 0.897 on the hold-out, so the practical ceiling of
+this approach on the leaderboard is ≈ 0.89–0.90. **Kept:** seed bagging of the boosted models, plus a
 second, rate-matched submission as a hedge against calibration shift.
 
 ## Leaderboard
@@ -94,6 +110,7 @@ submission.csv / .parquet     # written by the notebook: final test predictions 
 submission_probabilities.csv  # written by the notebook: ensemble anomaly probability per test row
 submission_rate_matched.csv   # written by the notebook: hedge submission (rate-matched threshold)
 submissions/                  # submitted prediction files + the scripts that produced them
+experiments/                  # scripts of the hold-out experiments in the log above
 data/                         # competition data (CC0)
 requirements.txt
 ```
