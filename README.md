@@ -63,7 +63,7 @@ jupyter nbconvert --to notebook --execute anomaly_detection.ipynb --ExecutePrepr
 ```
 
 The data goes in `data/` (`train.parquet`, `test.parquet`, `sample_submission.parquet`). Expensive feature tables are cached in
-`cache/`. A full run takes about 1.5–2 h on Kaggle (T4 GPU + 4 vCPU); the timeline feature build (~15 min per world) is CPU-bound. On a Kaggle GPU, XGBoost, CatBoost and the PyTorch models run on CUDA. Set `SMOKE=1` for a 4-minute end-to-end check on every
+`cache/`. A full-strength run (`FAST_MODE = False`, the default) takes about 2.5–3 h on Kaggle (T4 GPU + 4 vCPU) — use *Save Version → Save & Run All* so it runs in the background. `FAST_MODE = True` cuts it to about 1.5 h. On a Kaggle GPU, XGBoost, CatBoost and the PyTorch models run on CUDA. Set `SMOKE=1` for a 4-minute end-to-end check on every
 25th day.
 
 ## Repository layout
