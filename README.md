@@ -60,6 +60,7 @@ Class-0 F1 and accuracy are ≈ 0.999 for every reasonable model.
 | Leave-out anomaly rate of identical sensor vectors | −0.6 pt cross-fitted | ❌ |
 | XGBoost / CatBoost in the blend | blend ≈ 87 % LightGBM, no gain | kept only as a diversity pick |
 | Learned alignment cost (−log P(Δ) per sensor) | worse exact placement at episode edges (0.538 → 0.44–0.51) | ❌ |
+| Density-matched pseudo-labels in the *training* features too (out-of-fold) | −0.0035 vs v3 (v3 better in 95 % of bootstrap resamples) | ❌ — pseudo-labels help only at prediction time |
 
 **Error anatomy:** ~60 % of the remaining errors sit at episode boundaries (±1-minute ambiguity), ~20 % are isolated anomalies far
 from any labelled one. With perfect minute positions a single LightGBM reaches 0.897 on the hold-out, so the practical ceiling of
