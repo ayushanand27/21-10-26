@@ -44,6 +44,10 @@ prints the full table for every model, the ensemble, and per-class precision, re
 
 Class-0 F1 and accuracy are ≈ 0.999 for every reasonable model.
 
+**Tried and rejected** (all measured on the hold-out): stage-2 stacking on neighbouring predictions (−2 pts), post-hoc episode
+smoothing (no gain), and 20 instead of 10 out-of-fold chunks (−0.5 pt). **Kept:** seed bagging of the boosted models, plus a
+second, rate-matched submission as a hedge against calibration shift.
+
 ## How to run
 
 **On Kaggle (recommended, GPU):**
@@ -68,6 +72,7 @@ The data goes in `data/` (`train.parquet`, `test.parquet`, `sample_submission.pa
 anomaly_detection.ipynb       # the full analysis (run it to produce outputs + submissions)
 submission.csv / .parquet     # written by the notebook: final test predictions (ID, target)
 submission_probabilities.csv  # written by the notebook: ensemble anomaly probability per test row
+submission_rate_matched.csv   # written by the notebook: hedge submission (rate-matched threshold)
 data/                         # competition data (CC0)
 requirements.txt
 ```
