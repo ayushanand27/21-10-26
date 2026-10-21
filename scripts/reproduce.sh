@@ -20,5 +20,7 @@ $PY experiments/pseudolabel_variants.py "$WORK"
 $PY scripts/v3_pseudolabel.py "$WORK"
 # 7) v4: blend of v2 and v3                                -> share/submission_v4_blend_v2_v3.csv
 $PY scripts/v4_blend.py "$WORK"
-# 8) public/private split robustness check on the hold-out
+# 8) v6 / v7: alignment bagging (+ v3)
+$PY scripts/v6_v7_alignbag.py
+# 9) public/private split robustness check on the hold-out
 $PY scripts/private_split_sim.py "$WORK"

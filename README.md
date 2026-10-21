@@ -60,6 +60,8 @@ Class-0 F1 and accuracy are ≈ 0.999 for every reasonable model.
 | Leave-out anomaly rate of identical sensor vectors | −0.6 pt cross-fitted | ❌ |
 | XGBoost / CatBoost in the blend | blend ≈ 87 % LightGBM, no gain | kept only as a diversity pick |
 | Learned alignment cost (−log P(Δ) per sensor) | worse exact placement at episode edges (0.538 → 0.44–0.51) | ❌ |
+| **Alignment bagging** (average predictions over 3 DP cost weightings: base, equal, mix) | cross-fitted F1 +0.0033, bootstrap gain in 90 % | ✅ kept (v6) |
+| Alignment bag + v3 pseudo-labels (average) | best hold-out F1 0.8886 (+0.0034), bootstrap gain in 99.5 %, CI [+0.0014, +0.0057] | ✅ kept (v7) |
 | Density-matched pseudo-labels in the *training* features too (out-of-fold) | −0.0035 vs v3 (v3 better in 95 % of bootstrap resamples) | ❌ — pseudo-labels help only at prediction time |
 
 **Error anatomy:** ~60 % of the remaining errors sit at episode boundaries (±1-minute ambiguity), ~20 % are isolated anomalies far
@@ -72,6 +74,8 @@ Public leaderboard metric = F1 of the anomaly class (verified: hold-out F1₁ pr
 
 | Submission (`submissions/`) | What it is | Public F1 |
 |---|---|---|
+| `v7_alignbag_plus_v3.csv` | alignment bag (3 alignments) averaged with v3 — best on the hold-out | *pending* |
+| `v6_alignbag.csv` | alignment bag of LightGBM ×3 | *pending* |
 | `v4_blend_v2_v3.csv` | average of the v2 ensemble and v3 | **0.89205** |
 | `v2_hedge_rate_matched.csv` | v2 ensemble, rate-matched threshold | 0.89193 |
 | `v2_ensemble.csv` | 0.87 LightGBM×3 + 0.12 XGBoost + CatBoost, soft alignment | 0.89191 |
