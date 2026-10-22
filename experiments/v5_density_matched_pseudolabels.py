@@ -21,7 +21,7 @@ def add_soft(V, lab):
     trr=np.sort(V.row.values[~isT])
     st=pd.DataFrame(soft_features(B.Str[L],B.day_tr[L],y_all[L],B.Str[trr],B.day_tr[trr],MERGE_W,1.0),columns=SOFT_NAMES,index=trr)
     sT=pd.DataFrame(soft_features(B.Str[L],B.day_tr[L],y_all[L],B.Ste,B.day_te,MERGE_W,1.0),columns=SOFT_NAMES,index=B.dte['ID'].values)
-    V[SOFT_NAMES]=np.where(isT[:,None],sT.reindex(V.ID.values).values,st.reindex(V.row.values).values).astype(np.float32)
+    V[SOFT_NAMES]=np.where(isT[:,None],sT.reindex(V.ID.values).to_numpy(),st.reindex(V.row.values).to_numpy()).astype(np.float32)
     return V
 def relabel(V, p, lab, pos_tr, tgt_mask):
     lp=np.r_[pos_tr[lab],V.pos.values]; ly=np.r_[y_all[lab],p]; ld=np.r_[B.day_tr[lab],V.day.values]

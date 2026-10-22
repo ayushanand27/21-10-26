@@ -3,7 +3,7 @@
 set -euo pipefail
 export WORK=${WORK:-work}
 mkdir -p "$WORK/feat" "$WORK/share" "$WORK/logs"
-[ -e "$WORK/data" ] || ln -s "$(pwd)/data" "$WORK/data"
+[[ -e "$WORK/data" ]] || ln -s "$(pwd)/data" "$WORK/data"
 PY="python3 -I"
 # 1) timeline reconstruction + test-like out-of-fold features (sim world = 20 % hold-out, final world = real test)
 $PY scripts/build_features.py "$WORK/data" "$WORK/feat" sim 10

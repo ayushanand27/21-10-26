@@ -16,7 +16,7 @@ for name, w in VARIANTS.items():
     w = np.array(w, float); pipeline.MERGE_W[:] = w           # merge_timeline reads this module global
     V = B.view(B.pool, [B.H], B.H).set_index('row').reindex(ev.row.values)
     sf = pd.DataFrame(soft_features(B.Str[L], B.day_tr[L], y_all[L], B.Str[Hs], B.day_tr[Hs], w, 1.0), columns=SOFT_NAMES, index=Hs).reindex(ev.row.values)
-    V[SOFT_NAMES] = sf.values.astype(np.float32)
+    V[SOFT_NAMES] = sf.to_numpy().astype(np.float32)
     preds[name] = bst.predict(V[cols]); log('variant', name)
     report(f'single variant {name} vs base', ev, preds[name], pb, n_boot=100)
 pipeline.MERGE_W[:] = np.array([1.0, 2.0, 0.5, 0.5, 1.0])

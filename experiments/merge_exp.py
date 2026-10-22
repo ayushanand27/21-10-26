@@ -49,7 +49,7 @@ for b,g in list(tr.groupby('blk'))[:200]:
     src=merge(A,B,w)
     truepos=np.arange(N)
     # estimated positions of B rows in merged sequence
-    posB=np.where(src==1)[0]; tB=truepos[mask]
+    posB=np.nonzero(src==1)[0]; tB=truepos[mask]
     errs_dp.append(np.abs(posB-tB))
     m=mask.sum(); est=(np.arange(m)+0.5)/m*N
     errs_rk.append(np.abs(est-tB))
