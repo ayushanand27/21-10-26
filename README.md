@@ -3,7 +3,7 @@
 This project predicts anomalies (`target` = 1) from five sensor readings (`X1…X5`) captured every minute in an energy
 manufacturing plant. It is scored on **F1 and accuracy for each class**.
 
-Everything lives in **[`anomaly_detection.ipynb`](anomaly_detection.ipynb)**. Running it writes `submission.csv` / `submission.parquet`,
+Everything lives in **[`anomaly_detection.ipynb`](anomaly_detection.ipynb)** — committed **fully executed** (Kaggle T4 run, 75 cells, 0 errors, 223 min). Running it writes `submission.csv` / `submission.parquet`,
 which follow the `sample_submission` format with `target` as the string `'0'`/`'1'`.
 
 ## Key findings
@@ -75,6 +75,7 @@ Public leaderboard metric = F1 of the anomaly class (verified: hold-out F1₁ pr
 | Submission (`submissions/`) | What it is | Public F1 |
 |---|---|---|
 | `v6_alignbag.csv` | alignment bag of LightGBM ×3 | **0.89297** |
+| notebook `submission.csv` (section 11 winner: v7 recipe, notebook thresholds) | executed final notebook | 0.89153 |
 | `v7_alignbag_plus_v3.csv` | alignment bag (3 alignments) averaged with v3 — best on the hold-out | 0.89182 |
 | `v4_blend_v2_v3.csv` | average of the v2 ensemble and v3 | 0.89205 |
 | `v2_hedge_rate_matched.csv` | v2 ensemble, rate-matched threshold | 0.89193 |
@@ -123,7 +124,7 @@ method (EDA, all classical and advanced models, evaluation and robustness checks
 ```
 anomaly_detection.ipynb   # full analysis: EDA -> timeline rebuild -> features -> 12 models -> ensemble -> robustness ->
                           #   final section: alignment bagging + soft pseudo-labels -> submission
-notebooks_executed/       # executed Kaggle run (all outputs and plots) of the notebook before the final section was added
+notebooks_executed/       # earlier executed Kaggle run (before the final section was added)
 src/                      # library code: pipeline.py (decode, dates, DP merge, features), softalign.py (forward-backward
                           #   posterior features), eval_utils.py (fixed paired hold-out protocol), learned_cost.py (rejected idea)
 scripts/                  # end-to-end scripts that produced the submitted files + reproduce.sh
