@@ -4,7 +4,8 @@ Predicting **anomalies** in an energy-manufacturing plant from five sensor readi
 
 | | |
 |---|---|
-| **Final (private leaderboard) score** | **0.89841** — `submission_lgb_quick.csv` (v1, single LightGBM + timeline features), regenerated exactly (MD5-identical) by the executed notebook [`reproduce_v1.ipynb`](reproduce_v1.ipynb) |
+| **Final (private leaderboard) score** | **0.89841** — `submission_lgb_quick.csv` (v1, single LightGBM + timeline features), regenerated exactly (MD5-identical) by the executed notebook [`reproduce_v1.ipynb`](reproduce_v1.ipynb) (LightGBM 4.7.0). The same notebook run on Kaggle ([`notebooks_executed/reproduce_v1_kaggle_run.ipynb`](notebooks_executed/reproduce_v1_kaggle_run.ipynb), LightGBM 4.6.0, numpy 2.1, pandas 2.3) gives 3,339 predicted anomalies vs 3,343 — the tiny difference comes only from library versions |
+| **Final leaderboard rank** | **1st on the private leaderboard** |
 | **Best public leaderboard score** | **0.89297** (F1 of the anomaly class, v6) — top 3 of 125 teams on the public board |
 | **Best honest hold-out score** | F1 = **0.8886** on 327,852 held-back rows with 2,680 anomalies |
 | **Deliverable** | [`anomaly_detection.ipynb`](anomaly_detection.ipynb) — **fully executed** on Kaggle (GPU T4, 75 cells, 0 errors, all plots) |
