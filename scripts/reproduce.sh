@@ -22,5 +22,7 @@ $PY scripts/v3_pseudolabel.py "$WORK"
 $PY scripts/v4_blend.py "$WORK"
 # 8) v6 / v7: alignment bagging (+ v3)
 $PY scripts/v6_v7_alignbag.py
-# 9) public/private split robustness check on the hold-out
+# 9) v8a-e: decision variants of v6 / the 0.7-0.3 blend
+$PY scripts/v8_variants.py "$WORK"
+# 10) public/private split robustness check on the hold-out
 $PY scripts/private_split_sim.py "$WORK"

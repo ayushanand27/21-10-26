@@ -75,6 +75,8 @@ Public leaderboard metric = F1 of the anomaly class (verified: hold-out F1₁ pr
 | Submission (`submissions/`) | What it is | Public F1 |
 |---|---|---|
 | `v6_alignbag.csv` | alignment bag of LightGBM ×3 | **0.89297** |
+| `v8b_bag3_thr0.49.csv` / `v8c_bag3_thr0.52.csv` / `v8a_bag3_thr0.44.csv` | v6 probabilities, threshold 0.49 / 0.52 / 0.44 | 0.89284 / 0.89275 / 0.89179 |
+| `v8d_0.7bag3_0.3v3_thr0.52.csv` / `v8e_…_thr0.47.csv` | 0.7·v6 + 0.3·v3 probabilities (hold-out-validated blend) | 0.89182 / 0.89154 |
 | notebook `submission.csv` (section 11 winner: v7 recipe, notebook thresholds) | executed final notebook | 0.89153 |
 | `v7_alignbag_plus_v3.csv` | alignment bag (3 alignments) averaged with v3 — best on the hold-out | 0.89182 |
 | `v4_blend_v2_v3.csv` | average of the v2 ensemble and v3 | 0.89205 |
